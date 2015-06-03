@@ -1,4 +1,4 @@
-webnavigator
+webnavigator [![Build Status](https://travis-ci.org/cargomedia/webnavigator.svg)](https://travis-ci.org/cargomedia/webnavigator)
 ============
 Wrapper for [facebook/php-webdriver](https://github.com/facebook/php-webdriver) for simple automated acceptance tests.
 
