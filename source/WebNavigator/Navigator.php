@@ -56,6 +56,13 @@ class Navigator {
 
     /**
      * @param string $locator
+     */
+    public function sendReturn($locator) {
+        $this->_findElement($locator)->sendKeys(\WebDriverKeys::RETURN_KEY);
+    }
+
+    /**
+     * @param string $locator
      * @throws \Exception
      * @throws \NoSuchElementException
      * @throws \TimeOutException
@@ -74,7 +81,7 @@ class Navigator {
     }
 
     public function waitForAjax() {
-        $this->waitForJs('return (jQuery && 0 === jQuery.active);');
+        $this->waitForJs('return (0 === $.active);');
     }
 
     /**
