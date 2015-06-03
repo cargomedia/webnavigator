@@ -1,0 +1,16 @@
+{
+  "name": "cargomedia/webnavigator",
+  "license": "MIT",
+  "require": {
+    "facebook/webdriver": "~0.6.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.6.10",
+    "tomaszdurka/mocka": "~0.10.0"
+  },
+  "autoload": {
+    "psr-0": {
+      "WebNavigator": "source/"
+    }
+  }
+}
