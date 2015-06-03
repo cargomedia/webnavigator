@@ -12,25 +12,8 @@ phantomjs --webdriver=4444 --ssl-protocol=tlsv1 --ignore-ssl-errors=true
 
 Example
 -------
-Setting up a *WebDriver* instance and running some tests:
-```php
-$capabilities = new \DesiredCapabilities([\WebDriverCapabilityType::BROWSER_NAME => 'phantomjs']);
-$driver = \RemoteWebDriver::create('http://localhost:4444/wd/hub', $capabilities);
-$navigator = new \WebNavigator\Navigator($driver, 'https://www.denkmal.org');
+Setting up a *WebNavigator* instance in a *PHPUnit* test case and doing some basic tests:
 
-$navigator->get('/events');
-
-$navigator->click('.addButton a');
-$navigator->waitForElement('.Denkmal_Page_Add');
-$this->assertContains('Event hinzufügen', $navigator->getText('h1'));
-$this->assertContains('/add', $navigator->getUrl());
-
-$navigator->takeScreenshot('screenshot.png');
-$navigator->quit();
-
-```
-
-The same example using *PHPUnit*:
 ```php
 class MyTest extends \PHPUnit_Framework_TestCase {
 
