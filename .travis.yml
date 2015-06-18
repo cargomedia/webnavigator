@@ -5,6 +5,8 @@ php:
   - 5.5
 
 before_script:
+  - phantomjs --webdriver=4444 &
+  - php -S localhost:1234 -t tests/data/ &
   - composer install
 
 script:

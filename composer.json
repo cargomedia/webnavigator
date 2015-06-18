@@ -12,5 +12,10 @@
     "psr-0": {
       "WebNavigator": "source/"
     }
+  },
+  "autoload-dev": {
+    "psr-0": {
+      "WebNavigatorTests": "tests/source/"
+    }
   }
 }
