@@ -46,6 +46,13 @@ class NavigatorTest extends TestCase {
         $this->assertSame('my-value-2', $this->_navigator->executeJs('return document.getElementById("id-select").value'));
     }
 
+    public function testSetFieldTextarea() {
+        $this->_navigator->get('/test1.html');
+        $this->assertSame('my-text', $this->_navigator->executeJs('return document.getElementById("id-textarea").value'));
+        $this->_navigator->setField('#id-textarea', 'my-text-2');
+        $this->assertSame('my-text-2', $this->_navigator->executeJs('return document.getElementById("id-textarea").value'));
+    }
+
     public function testWaitForElement() {
         $this->_navigator->get('/test1.html');
 
