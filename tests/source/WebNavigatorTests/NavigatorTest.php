@@ -44,37 +44,46 @@ class NavigatorTest extends TestCase {
 
     public function testSetFieldSelect() {
         $this->_navigator->get('/test1.html');
-        $this->assertSame('my-value-1', $this->_navigator->executeJs('return document.getElementById("id-select").value'));
+        $this->assertSame('my-value-1', $this->_navigator->getAttribute('#id-select', 'value'));
         $this->_navigator->setField('#id-select', 'my-value-2');
-        $this->assertSame('my-value-2', $this->_navigator->executeJs('return document.getElementById("id-select").value'));
+        $this->assertSame('my-value-2', $this->_navigator->getAttribute('#id-select', 'value'));
     }
 
     public function testSetFieldTextarea() {
         $this->_navigator->get('/test1.html');
-        $this->assertSame('my-text', $this->_navigator->executeJs('return document.getElementById("id-textarea").value'));
+        $this->assertSame('my-text', $this->_navigator->getAttribute('#id-textarea', 'value'));
         $this->_navigator->setField('#id-textarea', 'my-text-2');
-        $this->assertSame('my-text-2', $this->_navigator->executeJs('return document.getElementById("id-textarea").value'));
+        $this->assertSame('my-text-2', $this->_navigator->getAttribute('#id-textarea', 'value'));
     }
 
     public function testSetFieldInputText() {
         $this->_navigator->get('/test1.html');
-        $this->assertSame('my-text', $this->_navigator->executeJs('return document.getElementById("id-input-text").value'));
+        $this->assertSame('my-text', $this->_navigator->getAttribute('#id-input-text', 'value'));
         $this->_navigator->setField('#id-input-text', 'my-text-2');
-        $this->assertSame('my-text-2', $this->_navigator->executeJs('return document.getElementById("id-input-text").value'));
+        $this->assertSame('my-text-2', $this->_navigator->getAttribute('#id-input-text', 'value'));
     }
 
     public function testSetFieldInputRadio() {
         $this->_navigator->get('/test1.html');
+        $this->assertSame(null, $this->_navigator->getAttribute('#id-input-radio-2', 'selected'));
         $this->_navigator->setField('#id-input-radio-2', true);
+        $this->assertSame('true', $this->_navigator->getAttribute('#id-input-radio-2', 'selected'));
+
         $this->_navigator->click('#id-input-submit');
         $this->assertContains('my-radio=my-value-2', $this->_navigator->getUrl());
     }
 
     public function testSetFieldInputCheckbox() {
         $this->_navigator->get('/test1.html');
+        $this->assertSame(null, $this->_navigator->getAttribute('#id-input-checkbox-1', 'selected'));
+        $this->assertSame(null, $this->_navigator->getAttribute('#id-input-checkbox-2', 'selected'));
+
         $this->_navigator->setField('#id-input-checkbox-1', true);
         $this->_navigator->setField('#id-input-checkbox-2', true);
         $this->_navigator->setField('#id-input-checkbox-1', false);
+        $this->assertSame(null, $this->_navigator->getAttribute('#id-input-checkbox-1', 'selected'));
+        $this->assertSame('true', $this->_navigator->getAttribute('#id-input-checkbox-2', 'selected'));
+
         $this->_navigator->click('#id-input-submit');
         $this->assertNotContains('my-checkbox=my-value-1', $this->_navigator->getUrl());
         $this->assertContains('my-checkbox=my-value-2', $this->_navigator->getUrl());
