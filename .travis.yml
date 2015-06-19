@@ -4,11 +4,25 @@ php:
   - 5.4
   - 5.5
 
-before_script:
+install:
   - composer install
+
+before_script:
+  # Run phantomjs
+  - phantomjs --webdriver=4444 > ~/phantomjs.log 2>&1 &
+  - timeout 10 sh -c "while ! (sudo netstat -an | grep -q '4444.*LISTEN'); do sleep 0.1; done"
+
+  # Run web server
+  - php -S localhost:1234 -t tests/data/ > ~/webserver.log 2>&1 &
+  - timeout 10 sh -c "while ! (sudo netstat -an | grep -q '1234.*LISTEN'); do sleep 0.1; done"
 
 script:
   - vendor/bin/phpunit
+
+after_script:
+  # Print logs
+  - cat ~/webserver.log
+  - cat ~/phantomjs.log
 
 notifications:
   email: false

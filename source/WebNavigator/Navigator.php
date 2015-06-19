@@ -4,7 +4,7 @@ namespace WebNavigator;
 
 class Navigator {
 
-    /** @var \WebDriver */
+    /** @var \WebDriver|\JavaScriptExecutor */
     private $_webDriver;
 
     /** @var string */
@@ -82,6 +82,14 @@ class Navigator {
 
     public function waitForAjax() {
         $this->waitForJs('return (0 === $.active);');
+    }
+
+    /**
+     * @param string $javascript
+     * @return mixed
+     */
+    public function executeJs($javascript) {
+        return $this->_webDriver->executeScript($javascript);
     }
 
     /**

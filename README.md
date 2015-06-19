@@ -43,3 +43,21 @@ class MyTest extends \PHPUnit_Framework_TestCase {
 }
 
 ```
+
+Development
+-----------
+Install dependencies:
+```sh
+composer install
+```
+
+Before running tests make sure you have *phantomjs* and a *web server* running:
+```sh
+phantomjs --webdriver=4444 &
+php -S localhost:1234 -t tests/data/ &
+```
+
+Then run the tests:
+```sh
+php vendor/bin/phpunit
+```
