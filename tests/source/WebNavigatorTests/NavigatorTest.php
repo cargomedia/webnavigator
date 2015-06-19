@@ -36,7 +36,7 @@ class NavigatorTest extends TestCase {
     public function testSendReturn() {
         $this->_navigator->get('/test1.html');
         $this->_navigator->sendReturn('#id-input-text');
-        $this->assertStringEndsWith('/my-form-action', $this->_navigator->getUrl());
+        $this->assertContains('/my-form-action', $this->_navigator->getUrl());
     }
 
     public function testSetFieldSelect() {
@@ -58,6 +58,13 @@ class NavigatorTest extends TestCase {
         $this->assertSame('my-text', $this->_navigator->executeJs('return document.getElementById("id-input-text").value'));
         $this->_navigator->setField('#id-input-text', 'my-text-2');
         $this->assertSame('my-text-2', $this->_navigator->executeJs('return document.getElementById("id-input-text").value'));
+    }
+
+    public function testSetFieldInputRadio() {
+        $this->_navigator->get('/test1.html');
+        $this->_navigator->setField('#id-input-radio-2', null);
+        $this->_navigator->click('#id-input-submit');
+        $this->assertContains('my-radio=my-value-2', $this->_navigator->getUrl());
     }
 
     public function testWaitForElement() {
@@ -90,7 +97,7 @@ class NavigatorTest extends TestCase {
     public function testWaitForAjax() {
         $this->_navigator->get('/test-jquery.html');
 
-        $this->_navigator->executeJs('$.ajax("http://www.example.com/foo");');
+        $this->_navigator->executeJs('$.ajax("http://echo.jsontest.com/");');
         $this->assertSame(1, $this->_navigator->executeJs('return $.active'));
 
         $this->_navigator->waitForAjax();
