@@ -19,6 +19,11 @@ class NavigatorTest extends TestCase {
         $this->assertSame('Hello <span>World</span>', $this->_navigator->getHtml('#id-hello'));
     }
 
+    public function testGetAttribute() {
+        $this->_navigator->get('/test1.html');
+        $this->assertSame('id-hello', $this->_navigator->getAttribute('#id-hello', 'id'));
+    }
+
     public function testIsDisplayed() {
         $this->_navigator->get('/test1.html');
         $this->assertSame(true, $this->_navigator->isDisplayed('#id-hello'));

@@ -105,7 +105,16 @@ class Navigator {
      * @return string
      */
     public function getHtml($locator) {
-        return $this->_findElement($locator)->getAttribute('innerHTML');
+        return $this->getAttribute($locator, 'innerHTML');
+    }
+
+    /**
+     * @param string $locator
+     * @param string $attribute
+     * @return string
+     */
+    public function getAttribute($locator, $attribute) {
+        return $this->_findElement($locator)->getAttribute($attribute);
     }
 
     /**
