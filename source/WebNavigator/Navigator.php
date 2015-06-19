@@ -43,16 +43,16 @@ class Navigator {
     }
 
     /**
-     * @param string        $locator
+     * @param string        $locatorPrefix
      * @param callable|null $block fn(Navigator)
      */
-    public function scope($locator, callable $block = null) {
-        $locator = (string) $locator;
+    public function scope($locatorPrefix, callable $block = null) {
+        $locatorPrefix = (string) $locatorPrefix;
         if (null === $block) {
-            $this->_locatorPrefix = $locator;
+            $this->_locatorPrefix = $locatorPrefix;
         } else {
             $navigator = clone $this;
-            $navigator->scope($locator);
+            $navigator->scope($locatorPrefix);
             $block($navigator);
         }
     }
