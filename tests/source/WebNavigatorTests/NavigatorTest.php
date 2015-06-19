@@ -39,6 +39,13 @@ class NavigatorTest extends TestCase {
         $this->assertStringEndsWith('/my-form-action', $this->_navigator->getUrl());
     }
 
+    public function testSetFieldSelect() {
+        $this->_navigator->get('/test1.html');
+        $this->assertSame('my-value-1', $this->_navigator->executeJs('return document.getElementById("id-select").value'));
+        $this->_navigator->setField('#id-select', 'my-value-2');
+        $this->assertSame('my-value-2', $this->_navigator->executeJs('return document.getElementById("id-select").value'));
+    }
+
     public function testWaitForElement() {
         $this->_navigator->get('/test1.html');
 
