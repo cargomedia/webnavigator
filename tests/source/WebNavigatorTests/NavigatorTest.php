@@ -123,6 +123,20 @@ class NavigatorTest extends TestCase {
         $this->assertSame('foo', $this->_navigator->executeJs('return window.myVariable'));
     }
 
+    /**
+     * @expectedException \TimeOutException
+     */
+    public function testWaitForJsWithTimeout() {
+        $this->_navigator->get('/test1.html');
+
+        $this->_navigator->executeJs('
+            setTimeout(function(){
+                window.myVariable = "foo";
+            }, 2000);'
+        );
+        $this->_navigator->waitForJs('return (window.myVariable === "foo")', 1);
+    }
+
     public function testWaitForAjax() {
         $this->_navigator->get('/test-jquery.html');
 
