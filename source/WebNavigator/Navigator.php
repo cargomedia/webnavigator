@@ -40,6 +40,15 @@ class Navigator {
     }
 
     /**
+     * @param int $width
+     * @param int $height
+     */
+    public function setWindowSize($width, $height) {
+        $this->_webDriver->manage()->window()->setPosition(new \WebDriverPoint(0, 0));
+        $this->_webDriver->manage()->window()->setSize(new \WebDriverDimension($width, $height));
+    }
+
+    /**
      * @param string $path
      */
     public function get($path) {

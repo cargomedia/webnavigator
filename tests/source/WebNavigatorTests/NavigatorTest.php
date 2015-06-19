@@ -9,6 +9,13 @@ class NavigatorTest extends TestCase {
         $this->assertStringEndsWith('/foo', $this->_navigator->getUrl());
     }
 
+    public function testSetWindowSize() {
+        $this->_navigator->get('/test1.html');
+        $this->_navigator->setWindowSize(123, 321);
+        $this->assertSame(123, $this->_navigator->executeJs('return window.innerWidth'));
+        $this->assertSame(321, $this->_navigator->executeJs('return window.innerHeight'));
+    }
+
     public function testGetText() {
         $this->_navigator->get('/test1.html');
         $this->assertSame('Hello World', $this->_navigator->getText('#id-hello'));
