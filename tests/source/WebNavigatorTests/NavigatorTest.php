@@ -2,8 +2,6 @@
 
 namespace WebNavigatorTests;
 
-use WebNavigator\Navigator;
-
 class NavigatorTest extends TestCase {
 
     public function testGetUrl() {
