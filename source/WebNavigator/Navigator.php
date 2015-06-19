@@ -40,6 +40,15 @@ class Navigator {
     }
 
     /**
+     * @param int $width
+     * @param int $height
+     */
+    public function setWindowSize($width, $height) {
+        $this->_webDriver->manage()->window()->setPosition(new \WebDriverPoint(0, 0));
+        $this->_webDriver->manage()->window()->setSize(new \WebDriverDimension($width, $height));
+    }
+
+    /**
      * @param string $path
      */
     public function get($path) {
@@ -105,7 +114,16 @@ class Navigator {
      * @return string
      */
     public function getHtml($locator) {
-        return $this->_findElement($locator)->getAttribute('innerHTML');
+        return $this->getAttribute($locator, 'innerHTML');
+    }
+
+    /**
+     * @param string $locator
+     * @param string $attribute
+     * @return string
+     */
+    public function getAttribute($locator, $attribute) {
+        return $this->_findElement($locator)->getAttribute($attribute);
     }
 
     /**
@@ -131,8 +149,8 @@ class Navigator {
     }
 
     /**
-     * @param string          $locator
-     * @param string|string[] $value
+     * @param string               $locator
+     * @param string|string[]|bool $value
      * @throws \Exception
      */
     public function setField($locator, $value) {
@@ -146,8 +164,10 @@ class Navigator {
                 $this->_setFieldText($element, $value);
                 break;
             case 'input':
-                if ('radio' === $element->getAttribute('type')) {
-                    $element->click();
+                if ('radio' === $element->getAttribute('type') || 'checkbox' === $element->getAttribute('type')) {
+                    if ($element->isSelected() != $value) {
+                        $element->click();
+                    }
                 } else {
                     $this->_setFieldText($element, $value);
                 }
