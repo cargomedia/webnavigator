@@ -131,8 +131,8 @@ class Navigator {
     }
 
     /**
-     * @param string          $locator
-     * @param string|string[] $value
+     * @param string               $locator
+     * @param string|string[]|bool $value
      * @throws \Exception
      */
     public function setField($locator, $value) {
@@ -146,8 +146,10 @@ class Navigator {
                 $this->_setFieldText($element, $value);
                 break;
             case 'input':
-                if ('radio' === $element->getAttribute('type')) {
-                    $element->click();
+                if ('radio' === $element->getAttribute('type') || 'checkbox' === $element->getAttribute('type')) {
+                    if ($element->isSelected() != $value) {
+                        $element->click();
+                    }
                 } else {
                     $this->_setFieldText($element, $value);
                 }

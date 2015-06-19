@@ -62,9 +62,19 @@ class NavigatorTest extends TestCase {
 
     public function testSetFieldInputRadio() {
         $this->_navigator->get('/test1.html');
-        $this->_navigator->setField('#id-input-radio-2', null);
+        $this->_navigator->setField('#id-input-radio-2', true);
         $this->_navigator->click('#id-input-submit');
         $this->assertContains('my-radio=my-value-2', $this->_navigator->getUrl());
+    }
+
+    public function testSetFieldInputCheckbox() {
+        $this->_navigator->get('/test1.html');
+        $this->_navigator->setField('#id-input-checkbox-1', true);
+        $this->_navigator->setField('#id-input-checkbox-2', true);
+        $this->_navigator->setField('#id-input-checkbox-1', false);
+        $this->_navigator->click('#id-input-submit');
+        $this->assertNotContains('my-checkbox=my-value-1', $this->_navigator->getUrl());
+        $this->assertContains('my-checkbox=my-value-2', $this->_navigator->getUrl());
     }
 
     public function testWaitForElement() {
