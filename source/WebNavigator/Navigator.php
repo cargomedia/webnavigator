@@ -65,6 +65,15 @@ class Navigator {
     }
 
     /**
+     * @param int $width
+     * @param int $height
+     */
+    public function setWindowSize($width, $height) {
+        $this->_webDriver->manage()->window()->setPosition(new \WebDriverPoint(0, 0));
+        $this->_webDriver->manage()->window()->setSize(new \WebDriverDimension($width, $height));
+    }
+
+    /**
      * @param string $path
      */
     public function get($path) {
@@ -130,7 +139,16 @@ class Navigator {
      * @return string
      */
     public function getHtml($locator) {
-        return $this->_findElement($locator)->getAttribute('innerHTML');
+        return $this->getAttribute($locator, 'innerHTML');
+    }
+
+    /**
+     * @param string $locator
+     * @param string $attribute
+     * @return string
+     */
+    public function getAttribute($locator, $attribute) {
+        return $this->_findElement($locator)->getAttribute($attribute);
     }
 
     /**
