@@ -35,7 +35,7 @@ class NavigatorTest extends TestCase {
 
     public function testSendReturn() {
         $this->_navigator->get('/test1.html');
-        $this->_navigator->sendReturn('#id-form-input');
+        $this->_navigator->sendReturn('#id-input-text');
         $this->assertStringEndsWith('/my-form-action', $this->_navigator->getUrl());
     }
 
