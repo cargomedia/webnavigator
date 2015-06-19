@@ -2,8 +2,6 @@
 
 namespace WebNavigatorTests;
 
-use WebNavigator\Navigator;
-
 class NavigatorTest extends TestCase {
 
     public function testGetUrl() {
@@ -107,7 +105,7 @@ class NavigatorTest extends TestCase {
     public function testWaitForAjax() {
         $this->_navigator->get('/test-jquery.html');
 
-        $this->_navigator->executeJs('$.ajax("http://echo.jsontest.com/");');
+        $this->_navigator->executeJs('$.ajax("/php/sleep.php?duration=0.1");');
         $this->assertSame(1, $this->_navigator->executeJs('return $.active'));
 
         $this->_navigator->waitForAjax();

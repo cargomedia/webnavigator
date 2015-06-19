@@ -2,13 +2,9 @@
 
 namespace WebNavigatorTests;
 
-use Cocur\BackgroundProcess\BackgroundProcess;
 use WebNavigator\Navigator;
 
 class TestCase extends \PHPUnit_Framework_TestCase {
-
-    /** @var BackgroundProcess */
-    protected $_webServer;
 
     /** @var Navigator|null */
     protected $_navigator;
