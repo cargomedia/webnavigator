@@ -65,4 +65,14 @@ class NavigatorTest extends TestCase {
         $this->_navigator->waitForJs('return (window.myVariable === "foo")');
         $this->assertSame('foo', $this->_navigator->executeJs('return window.myVariable'));
     }
+
+    public function testWaitForAjax() {
+        $this->_navigator->get('/test-jquery.html');
+
+        $this->_navigator->executeJs('$.ajax("http://www.example.com/foo");');
+        $this->assertSame(1, $this->_navigator->executeJs('return $.active'));
+
+        $this->_navigator->waitForAjax();
+        $this->assertSame(0, $this->_navigator->executeJs('return $.active'));
+    }
 }
