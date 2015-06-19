@@ -62,26 +62,28 @@ class Navigator {
     }
 
     /**
-     * @param string $locator
-     * @throws \Exception
-     * @throws \NoSuchElementException
-     * @throws \TimeOutException
+     * @param string   $locator
+     * @param int|null $timeout
      */
-    public function waitForElement($locator) {
-        $this->_waitUntil(\WebDriverExpectedCondition::presenceOfElementLocated($this->_getLocator($locator)));
+    public function waitForElement($locator, $timeout = null) {
+        $this->_waitUntil(\WebDriverExpectedCondition::presenceOfElementLocated($this->_getLocator($locator)), $timeout);
     }
 
     /**
      * @param string $javascript
+     * @param int|null $timeout
      */
-    public function waitForJs($javascript) {
+    public function waitForJs($javascript, $timeout = null) {
         $this->_waitUntil(function (\JavaScriptExecutor $driver) use ($javascript) {
             return $driver->executeScript($javascript);
-        });
+        }, $timeout);
     }
 
-    public function waitForAjax() {
-        $this->waitForJs('return (0 === $.active);');
+    /**
+     * @param int|null $timeout
+     */
+    public function waitForAjax($timeout = null) {
+        $this->waitForJs('return (0 === $.active);', $timeout);
     }
 
     /**
@@ -204,9 +206,13 @@ class Navigator {
 
     /**
      * @param \Closure|\WebDriverExpectedCondition $functionOrCondition
+     * @param int|null $timeout
      */
-    protected function _waitUntil($functionOrCondition) {
-        $this->_webDriver->wait($this->_waitTimeout)->until($functionOrCondition);
+    protected function _waitUntil($functionOrCondition, $timeout = null) {
+        if (null === $timeout) {
+            $timeout = $this->_waitTimeout;
+        }
+        $this->_webDriver->wait($timeout)->until($functionOrCondition);
     }
 
     /**
