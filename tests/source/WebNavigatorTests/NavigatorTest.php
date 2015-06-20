@@ -44,7 +44,6 @@ class NavigatorTest extends TestCase {
     public function testGetText() {
         $this->_navigator->get('/test1.html');
         $this->assertSame('Hello World', $this->_navigator->getText('#id-hello'));
-        $this->_navigator->takeScreenshot('/Users/reto/jo.png');
     }
 
     public function testGetHtml() {
