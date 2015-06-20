@@ -13,6 +13,9 @@ class Navigator {
     /** @var int */
     private $_waitTimeout;
 
+    /** @var string|null */
+    private $_locatorPrefix;
+
     /**
      * @param \WebDriver $driver
      * @param string     $baseUrl
@@ -37,6 +40,28 @@ class Navigator {
 
     public function quit() {
         $this->_webDriver->quit();
+    }
+
+    /**
+     * @param string        $locatorPrefix
+     * @param callable|null $block fn(Navigator)
+     */
+    public function scope($locatorPrefix, callable $block = null) {
+        $locatorPrefix = (string) $locatorPrefix;
+        if (null === $block) {
+            $this->_locatorPrefix = $locatorPrefix;
+        } else {
+            $navigator = clone $this;
+            $navigator->scope($locatorPrefix);
+            $block($navigator);
+        }
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLocatorPrefix() {
+        return $this->_locatorPrefix;
     }
 
     /**
@@ -248,6 +273,9 @@ class Navigator {
      * @return \WebDriverBy
      */
     protected function _getLocator($locator) {
+        if (null !== $this->_locatorPrefix) {
+            $locator = $this->_locatorPrefix . ' ' . $locator;
+        }
         return \WebDriverBy::cssSelector($locator);
     }
 }

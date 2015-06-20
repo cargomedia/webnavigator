@@ -2,7 +2,26 @@
 
 namespace WebNavigatorTests;
 
+use WebNavigator\Navigator;
+
 class NavigatorTest extends TestCase {
+
+    public function testScope() {
+        $this->_navigator->get('/test-scope.html');
+        $this->assertSame(null, $this->_navigator->getLocatorPrefix());
+        $this->assertSame('Test1', $this->_navigator->getText('.text'));
+
+        $this->_navigator->scope('#id-scope');
+        $this->assertSame('#id-scope', $this->_navigator->getLocatorPrefix());
+        $this->assertSame('Test2', $this->_navigator->getText('.text'));
+    }
+
+    public function testScopeWithBlock() {
+        $this->_navigator->scope('.foo', function(Navigator $navigator) {
+            $this->assertSame('.foo', $navigator->getLocatorPrefix());
+        });
+        $this->assertSame(null, $this->_navigator->getLocatorPrefix());
+    }
 
     public function testGetUrl() {
         $this->_navigator->get('/foo');
