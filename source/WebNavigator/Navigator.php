@@ -10,11 +10,11 @@ class Navigator {
     /** @var string */
     private $_baseUrl;
 
-    /** @var int */
-    private $_waitTimeout;
-
     /** @var string|null */
     private $_locatorPrefix;
+
+    /** @var Options */
+    private $_options;
 
     /**
      * @param \WebDriver $driver
@@ -24,11 +24,7 @@ class Navigator {
     public function __construct(\WebDriver $driver, $baseUrl, array $options = null) {
         $this->_webDriver = $driver;
         $this->_baseUrl = (string) $baseUrl;
-
-        $options = array_merge([
-            'waitTimeout' => 5,
-        ], (array) $options);
-        $this->_waitTimeout = (int) $options['waitTimeout'];
+        $this->_options = new Options($options);
     }
 
     /**
@@ -255,7 +251,7 @@ class Navigator {
      */
     protected function _waitUntil($functionOrCondition, $timeout = null) {
         if (null === $timeout) {
-            $timeout = $this->_waitTimeout;
+            $timeout = $this->_options->getWaitTimeout();
         }
         $this->_webDriver->wait($timeout)->until($functionOrCondition);
     }
