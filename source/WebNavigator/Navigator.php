@@ -10,11 +10,11 @@ class Navigator {
     /** @var string */
     private $_baseUrl;
 
-    /** @var int */
-    private $_waitTimeout;
-
     /** @var string|null */
     private $_locatorPrefix;
+
+    /** @var Options */
+    private $_options;
 
     /**
      * @param \WebDriver $driver
@@ -24,11 +24,9 @@ class Navigator {
     public function __construct(\WebDriver $driver, $baseUrl, array $options = null) {
         $this->_webDriver = $driver;
         $this->_baseUrl = (string) $baseUrl;
+        $this->_options = new Options($options);
 
-        $options = array_merge([
-            'waitTimeout' => 5,
-        ], (array) $options);
-        $this->_waitTimeout = (int) $options['waitTimeout'];
+        $this->setWindowSize($this->_options->getWindowSize());
     }
 
     /**
@@ -65,12 +63,11 @@ class Navigator {
     }
 
     /**
-     * @param int $width
-     * @param int $height
+     * @param Dimension $windowSize
      */
-    public function setWindowSize($width, $height) {
+    public function setWindowSize(Dimension $windowSize) {
         $this->_webDriver->manage()->window()->setPosition(new \WebDriverPoint(0, 0));
-        $this->_webDriver->manage()->window()->setSize(new \WebDriverDimension($width, $height));
+        $this->_webDriver->manage()->window()->setSize(new \WebDriverDimension($windowSize->getWidth(), $windowSize->getHeight()));
     }
 
     /**
@@ -104,7 +101,7 @@ class Navigator {
     }
 
     /**
-     * @param string $javascript
+     * @param string   $javascript
      * @param int|null $timeout
      */
     public function waitForJs($javascript, $timeout = null) {
@@ -251,11 +248,11 @@ class Navigator {
 
     /**
      * @param \Closure|\WebDriverExpectedCondition $functionOrCondition
-     * @param int|null $timeout
+     * @param int|null                             $timeout
      */
     protected function _waitUntil($functionOrCondition, $timeout = null) {
         if (null === $timeout) {
-            $timeout = $this->_waitTimeout;
+            $timeout = $this->_options->getWaitTimeout();
         }
         $this->_webDriver->wait($timeout)->until($functionOrCondition);
     }
