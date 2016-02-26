@@ -75,11 +75,15 @@ class Navigator {
     }
 
     /**
-     * @param Dimension $windowSize
+     * @param WebDriverDimension  $windowSize
+     * @param WebDriverPoint|null $position
      */
-    public function setWindowSize(Dimension $windowSize) {
-        $this->_webDriver->manage()->window()->setPosition(new WebDriverPoint(0, 0));
-        $this->_webDriver->manage()->window()->setSize(new WebDriverDimension($windowSize->getWidth(), $windowSize->getHeight()));
+    public function setWindowSize(WebDriverDimension $windowSize, WebDriverPoint $position=null) {
+        if(null == $position) {
+            $position = new WebDriverPoint(0, 0);
+        }
+        $this->_webDriver->manage()->window()->setSize($windowSize);
+        $this->_webDriver->manage()->window()->setPosition($position);
     }
 
     /**

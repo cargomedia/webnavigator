@@ -2,6 +2,8 @@
 
 namespace WebNavigator;
 
+use Facebook\WebDriver\WebDriverDimension;
+
 class Options {
 
     /** @var array */
@@ -13,7 +15,7 @@ class Options {
     public function __construct(array $options = null) {
         $defaults = [
             'waitTimeout' => 5,
-            'windowSize'  => new Dimension(1024, 768),
+            'windowSize'  => new WebDriverDimension(1024, 768),
         ];
         $options = array_merge($defaults, (array) $options);
 
@@ -37,16 +39,16 @@ class Options {
     }
 
     /**
-     * @return Dimension
+     * @return WebDriverDimension
      */
     public function getWindowSize() {
         return $this->_options['windowSize'];
     }
 
     /**
-     * @param Dimension $windowSize
+     * @param WebDriverDimension $windowSize
      */
-    public function setWindowSize(Dimension $windowSize) {
+    public function setWindowSize(WebDriverDimension $windowSize) {
         $this->_options['windowSize'] = $windowSize;
     }
 }
