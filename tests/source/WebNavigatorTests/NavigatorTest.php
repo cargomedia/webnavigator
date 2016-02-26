@@ -2,7 +2,7 @@
 
 namespace WebNavigatorTests;
 
-use WebNavigator\Dimension;
+use Facebook\WebDriver\WebDriverDimension;
 use WebNavigator\Navigator;
 
 class NavigatorTest extends TestCase {
@@ -31,7 +31,7 @@ class NavigatorTest extends TestCase {
 
     public function testSetWindowSize() {
         $this->_navigator->get('/test1.html');
-        $this->_navigator->setWindowSize(new Dimension(123, 321));
+        $this->_navigator->setWindowSize(new WebDriverDimension(123, 321));
         $this->assertSame(123, $this->_navigator->executeJs('return window.innerWidth'));
         $this->assertSame(321, $this->_navigator->executeJs('return window.innerHeight'));
     }
