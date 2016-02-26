@@ -2,6 +2,9 @@
 
 namespace WebNavigatorTests;
 
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\Remote\WebDriverCapabilityType;
 use WebNavigator\Navigator;
 
 class TestCase extends \PHPUnit_Framework_TestCase {
@@ -23,8 +26,8 @@ class TestCase extends \PHPUnit_Framework_TestCase {
      * @return Navigator
      */
     protected function _createNavigator() {
-        $capabilities = new \DesiredCapabilities([\WebDriverCapabilityType::BROWSER_NAME => 'phantomjs']);
-        $driver = \RemoteWebDriver::create('http://localhost:4444/wd/hub', $capabilities);
+        $capabilities = new DesiredCapabilities([WebDriverCapabilityType::BROWSER_NAME => 'phantomjs']);
+        $driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', $capabilities);
         return new Navigator($driver, 'http://localhost:1234');
     }
 }

@@ -2,9 +2,21 @@
 
 namespace WebNavigator;
 
+use Facebook\WebDriver\Exception;
+use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\JavaScriptExecutor;
+use Facebook\WebDriver\WebDriver;
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverDimension;
+use Facebook\WebDriver\WebDriverElement;
+use Facebook\WebDriver\WebDriverExpectedCondition;
+use Facebook\WebDriver\WebDriverKeys;
+use Facebook\WebDriver\WebDriverPoint;
+use Facebook\WebDriver\WebDriverSelect;
+
 class Navigator {
 
-    /** @var \WebDriver|\JavaScriptExecutor */
+    /** @var WebDriver|JavaScriptExecutor */
     private $_webDriver;
 
     /** @var string */
@@ -17,11 +29,11 @@ class Navigator {
     private $_options;
 
     /**
-     * @param \WebDriver $driver
+     * @param WebDriver  $driver
      * @param string     $baseUrl
      * @param array|null $options
      */
-    public function __construct(\WebDriver $driver, $baseUrl, array $options = null) {
+    public function __construct(WebDriver $driver, $baseUrl, array $options = null) {
         $this->_webDriver = $driver;
         $this->_baseUrl = (string) $baseUrl;
         $this->_options = new Options($options);
@@ -30,7 +42,7 @@ class Navigator {
     }
 
     /**
-     * @return \WebDriver
+     * @return WebDriver
      */
     public function getWebDriver() {
         return $this->_webDriver;
@@ -66,8 +78,8 @@ class Navigator {
      * @param Dimension $windowSize
      */
     public function setWindowSize(Dimension $windowSize) {
-        $this->_webDriver->manage()->window()->setPosition(new \WebDriverPoint(0, 0));
-        $this->_webDriver->manage()->window()->setSize(new \WebDriverDimension($windowSize->getWidth(), $windowSize->getHeight()));
+        $this->_webDriver->manage()->window()->setPosition(new WebDriverPoint(0, 0));
+        $this->_webDriver->manage()->window()->setSize(new WebDriverDimension($windowSize->getWidth(), $windowSize->getHeight()));
     }
 
     /**
@@ -89,7 +101,7 @@ class Navigator {
      * @param string $locator
      */
     public function sendReturn($locator) {
-        $this->_findElement($locator)->sendKeys(\WebDriverKeys::RETURN_KEY);
+        $this->_findElement($locator)->sendKeys(WebDriverKeys::RETURN_KEY);
     }
 
     /**
@@ -97,7 +109,7 @@ class Navigator {
      * @param int|null $timeout
      */
     public function waitForElement($locator, $timeout = null) {
-        $this->_waitUntil(\WebDriverExpectedCondition::presenceOfElementLocated($this->_getLocator($locator)), $timeout);
+        $this->_waitUntil(WebDriverExpectedCondition::presenceOfElementLocated($this->_getLocator($locator)), $timeout);
     }
 
     /**
@@ -105,7 +117,7 @@ class Navigator {
      * @param int|null $timeout
      */
     public function waitForJs($javascript, $timeout = null) {
-        $this->_waitUntil(function (\JavaScriptExecutor $driver) use ($javascript) {
+        $this->_waitUntil(function (JavaScriptExecutor $driver) use ($javascript) {
             return $driver->executeScript($javascript);
         }, $timeout);
     }
@@ -182,7 +194,7 @@ class Navigator {
         $tagName = $element->getTagName();
         switch ($tagName) {
             case 'select':
-                $this->_setFieldSelect(new \WebDriverSelect($element), $value);
+                $this->_setFieldSelect(new WebDriverSelect($element), $value);
                 break;
             case 'textarea':
                 $this->_setFieldText($element, $value);
@@ -203,20 +215,20 @@ class Navigator {
     }
 
     /**
-     * @param \WebDriverElement $element
-     * @param string            $value
+     * @param WebDriverElement $element
+     * @param string           $value
      */
-    protected function _setFieldText(\WebDriverElement $element, $value) {
+    protected function _setFieldText(WebDriverElement $element, $value) {
         $element->clear();
         $element->sendKeys($value);
     }
 
     /**
-     * @param \WebDriverSelect $select
-     * @param string|string[]  $value
+     * @param WebDriverSelect $select
+     * @param string|string[] $value
      * @throws \Exception
      */
-    protected function _setFieldSelect(\WebDriverSelect $select, $value) {
+    protected function _setFieldSelect(WebDriverSelect $select, $value) {
         $valueList = (array) $value;
 
         if ($select->isMultiple()) {
@@ -228,7 +240,7 @@ class Navigator {
             try {
                 $select->selectByVisibleText($value);
                 $matched = true;
-            } catch (\NoSuchElementException $e) {
+            } catch (NoSuchElementException $e) {
             }
         }
         if ($matched) {
@@ -238,7 +250,7 @@ class Navigator {
             try {
                 $select->selectByValue($value);
                 $matched = true;
-            } catch (\NoSuchElementException $e) {
+            } catch (NoSuchElementException $e) {
             }
         }
         if (false === $matched) {
@@ -247,8 +259,8 @@ class Navigator {
     }
 
     /**
-     * @param \Closure|\WebDriverExpectedCondition $functionOrCondition
-     * @param int|null                             $timeout
+     * @param \Closure|WebDriverExpectedCondition $functionOrCondition
+     * @param int|null                            $timeout
      */
     protected function _waitUntil($functionOrCondition, $timeout = null) {
         if (null === $timeout) {
@@ -259,7 +271,7 @@ class Navigator {
 
     /**
      * @param string $locator
-     * @return \WebDriverElement
+     * @return WebDriverElement
      */
     protected function _findElement($locator) {
         return $this->_webDriver->findElement($this->_getLocator($locator));
@@ -267,12 +279,12 @@ class Navigator {
 
     /**
      * @param string $locator
-     * @return \WebDriverBy
+     * @return WebDriverBy
      */
     protected function _getLocator($locator) {
         if (null !== $this->_locatorPrefix) {
             $locator = $this->_locatorPrefix . ' ' . $locator;
         }
-        return \WebDriverBy::cssSelector($locator);
+        return WebDriverBy::cssSelector($locator);
     }
 }
