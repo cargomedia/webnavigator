@@ -149,7 +149,7 @@ class NavigatorTest extends TestCase {
     }
 
     /**
-     * @expectedException \TimeOutException
+     * @expectedException \Facebook\WebDriver\Exception\TimeOutException
      */
     public function testWaitForJsWithTimeout() {
         $this->_navigator->get('/test1.html');
