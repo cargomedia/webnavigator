@@ -1,3 +1,8 @@
+UNMAINTAINED
+============
+This project is not maintained anymore.
+If you want to take over contact us at tech@cargomedia.ch.
+
 webnavigator [![Build Status](https://travis-ci.org/cargomedia/webnavigator.svg)](https://travis-ci.org/cargomedia/webnavigator)
 ============
 Wrapper for [facebook/php-webdriver](https://github.com/facebook/php-webdriver) for simple automated acceptance tests.
